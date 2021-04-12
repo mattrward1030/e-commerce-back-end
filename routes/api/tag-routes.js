@@ -7,8 +7,8 @@ router.get('/', (req, res) => {
   // find all tags
   // be sure to include its associated Product data
   try {
-    const tags = await Tag.findAll();
-    res.status(200).json(tags);
+    const allTags = await Tag.findAll();
+    res.status(200).json(allTags);
   } catch (err) {
     res.status(500).json(err);
   }

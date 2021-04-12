@@ -7,16 +7,43 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 router.get('/', (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
+  try {
+    const allProducts = await Product.findAll();
+    res.status(200).json(allProducts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 // get one product
 router.get('/:id', (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
+  try {
+    const productId = await Product.findByPk(req.params.id);
+    if (!productId) {
+      res.status(404).json({ message: 'No product with this id!' });
+      return;
+    }
+    res.status(200).json(productId);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 // create new product
 router.post('/', (req, res) => {
+  try {
+    const newProduct = await Product.create({
+      product_name: "Basketball",
+      price: 200.00,
+      stock: 3,
+      tagIds: [1, 2, 3, 4]
+    });
+    res.status(200).json(newProduct);
+  } catch (err) {
+    res.status(400).json(err);
+  }
   /* req.body should look like this...
     {
       product_name: "Basketball",
