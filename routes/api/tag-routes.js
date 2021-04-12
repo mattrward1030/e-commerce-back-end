@@ -7,7 +7,9 @@ router.get('/', async (req, res) => {
   // find all tags
   // be sure to include its associated Product data
   try {
-    const allTags = await Tag.findAll();
+    const allTags = await Tag.findAll({
+      include: [{ model: Product }]
+    });
     res.status(200).json(allTags);
   } catch (err) {
     res.status(500).json(err);
@@ -18,7 +20,9 @@ router.get('/:id', async (req, res) => {
   // find a single tag by its `id`
   // be sure to include its associated Product data
   try {
-    const tagId = await Tag.findByPk(req.params.id);
+    const tagId = await Tag.findByPk(req.params.id, {
+      include: [{ model: Product }]
+    });
     if (!tagId) {
       res.status(404).json({ message: 'No tag with this id!' });
       return;
@@ -33,9 +37,8 @@ router.post('/', async (req, res) => {
   // create a new tag
   try {
     const newTag = await Tag.create({
-      // username: req.body.username,
-      // email: req.body.email,
-      // password: req.body.password,
+      tag_name: req.body.tag_name,
+
     });
     res.status(200).json(newTag);
   } catch (err) {
