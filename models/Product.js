@@ -36,7 +36,7 @@ Product.init(
       },
     },
     category_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },
